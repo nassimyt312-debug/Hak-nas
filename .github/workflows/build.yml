@@ -18,6 +18,7 @@ jobs:
                  -framework Foundation \
                  -framework UIKit \
                  -framework Security \
+                 -framework Network \
                  *.swift -o Payload/VulnScanner
           cp Info.plist Payload/ 2>/dev/null || true
           zip -r VulnScanner.ipa Payload
