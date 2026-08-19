@@ -12,7 +12,34 @@ jobs:
 
       - name: Compile and Package IPA
         run: |
+          rm -rf Payload VulnScanner.ipa
           mkdir -p Payload/VulnScanner.app
+          
+          cat << 'EOF' > Payload/VulnScanner.app/Info.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>CFBundleExecutable</key>
+              <string>VulnScanner</string>
+              <key>CFBundleIdentifier</key>
+              <string>com.nassim.vulnscanner</string>
+              <key>CFBundleName</key>
+              <string>VulnScanner</string>
+              <key>CFBundlePackageType</key>
+              <string>APPL</string>
+              <key>CFBundleShortVersionString</key>
+              <string>1.0</string>
+              <key>CFBundleVersion</key>
+              <string>1</string>
+              <key>LSRequiresIPhoneOS</key>
+              <true/>
+              <key>MinimumOSVersion</key>
+              <string>15.0</string>
+          </dict>
+          </plist>
+          EOF
+
           xcrun swiftc -sdk $(xcrun --sdk iphoneos --show-sdk-path) \
                  -target arm64-apple-ios15.0 \
                  -framework Foundation \
@@ -20,7 +47,7 @@ jobs:
                  -framework Security \
                  -framework Network \
                  *.swift -o Payload/VulnScanner.app/VulnScanner
-          cp Info.plist Payload/VulnScanner.app/ 2>/dev/null || true
+
           zip -r VulnScanner.ipa Payload
 
       - name: Upload IPA Artifact
