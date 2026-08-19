@@ -12,15 +12,15 @@ jobs:
 
       - name: Compile and Package IPA
         run: |
-          mkdir -p Payload
+          mkdir -p Payload/VulnScanner.app
           xcrun swiftc -sdk $(xcrun --sdk iphoneos --show-sdk-path) \
                  -target arm64-apple-ios15.0 \
                  -framework Foundation \
                  -framework UIKit \
                  -framework Security \
                  -framework Network \
-                 *.swift -o Payload/VulnScanner
-          cp Info.plist Payload/ 2>/dev/null || true
+                 *.swift -o Payload/VulnScanner.app/VulnScanner
+          cp Info.plist Payload/VulnScanner.app/ 2>/dev/null || true
           zip -r VulnScanner.ipa Payload
 
       - name: Upload IPA Artifact
