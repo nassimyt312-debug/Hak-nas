@@ -15,6 +15,9 @@ jobs:
           mkdir -p Payload
           xcrun swiftc -sdk $(xcrun --sdk iphoneos --show-sdk-path) \
                  -target arm64-apple-ios15.0 \
+                 -framework Foundation \
+                 -framework UIKit \
+                 -framework Security \
                  *.swift -o Payload/VulnScanner
           cp Info.plist Payload/ 2>/dev/null || true
           zip -r VulnScanner.ipa Payload
